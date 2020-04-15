@@ -85,9 +85,11 @@ void Graph::FindSCC(int nextVert, int disc[], int low[], stack<int> *st, bool st
         }
         w = (int) st->top();
         cout << w;
-        if (assur == 1){
+        if (assur == 1) {
             cout << " <-- Assur Graph" << "\n";
             assur = 0;
+        } else {
+            cout << " <-- Separated Isostatic Graph\n";
         }
 
         stackMember[w] = false;
@@ -139,25 +141,27 @@ int main()
 
 /*       for (int i = 0; i < totalVert; i++) {
            for (int j = 0; j < totalVert; j++) {
-               if (i == j){
+               if ((i == j) || (i < numPinned)) {
                    continue;
                }
-               if (j == 0){
+               if (j == 0) {
                    counter = 0;
                }
-               cout << "Does vertex " << i << " have an edge in the direction of  vertex " << j << "? (enter 1 for yes, 0 for no)"<< "\n";
+               cout << "Does vertex " << i << " have an edge in the direction of  vertex " << j
+                    << "? (enter 1 for yes, 0 for no)" << "\n";
                cin >> checker;
-               if(checker == 1){
-                       g1.addEdge(i, j);
-                       if (j < numPinned) {
-                           g1.addEdge(j, i);
-                       }
+               if (checker == 1) {
+                   g1.addEdge(i, j);
+                   if (j < numPinned) {
+                       g1.addEdge(j, i);
+                   }
                    checker = 0;
                }
            }
+       }*/
 
-
-/* EX 1 separating two strongly cluster components, keeping the pinned verts with the correct group*/
+   //EX 1 separating two strongly cluster components, keeping the pinned verts with the correct group
+   //0 and 1 are pinned
     g1.addEdge(3, 0);g1.addEdge(0, 3);
     g1.addEdge(2, 1);g1.addEdge(1, 2);
     g1.addEdge(2, 4);
@@ -168,8 +172,8 @@ int main()
     g1.addEdge(7, 6);
 
 
-/* EX 2 when pinned vertexes get separated
-    g1.addEdge(3, 0);g1.addEdge(3, 1);g1.addEdge(0, 3);g1.addEdge(1, 3);
+ //EX 2 when pinned vertexes get separated
+ /*   g1.addEdge(3, 0);g1.addEdge(3, 1);g1.addEdge(0, 3);g1.addEdge(1, 3);
     g1.addEdge(4, 3);g1.addEdge(4, 2);g1.addEdge(2, 4);
 */
 
