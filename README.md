@@ -15,6 +15,7 @@ Todo: example of separating pinned verts, ex of a larger graph with more separat
 
 
 sym-assur.cpp
+note: for this file you have to uncomment out the vertLoc array at the top as well as the addedge calls in main
 
 Ex 1. Ideal scenario. Symmytrical graph, Two SCCs, one the reflection of the other
 
