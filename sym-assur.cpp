@@ -1,10 +1,18 @@
 #include<iostream>
 #include <list>
 #include <stack>
+#include <string>
 #define NIL -1
 using namespace std;
+
 int center = 0;
-int vertLoc[6][2] = {{1,1}, {2,2}, {4,2}, {5,1}, {1,3}, {5,3}};
+//Ex 1: Symmetric graph with two SCCs
+//int vertLoc[6][2] = {{1,1}, {2,2}, {4,2}, {5,1}, {1,3}, {5,3}};
+//Ex 2: Symmetric graph with extra verts that get separated
+int vertLoc[8][2] = {{1,1}, {2,2}, {4,2}, {5,1}, {1,3}, {5,3}, {2,4}, {4,4}};
+int numPinned;
+int numVerticies;
+int totalVert;
 
 class Graph
 {
@@ -73,6 +81,8 @@ void Graph::FindSCC(int nextVert, int disc[], int low[], stack<int> *st, bool st
     //temp for printing
     int w = 0;
     int reflection = 0;
+    int left = 0;
+    int stackCount = 0;
     if (low[nextVert] == disc[nextVert])
     {
         while (st->top() != nextVert)
@@ -82,17 +92,33 @@ void Graph::FindSCC(int nextVert, int disc[], int low[], stack<int> *st, bool st
             if (sym && (center < vertLoc[w][0])){
                 reflection = 1;
             }
+            if (sym && (center > vertLoc[w][0])){
+                left = 1;
+            }
             cout << w << " ";
             stackMember[w] = false;
             st->pop();
+            stackCount++;
         }
         w = (int) st->top();
         cout << w;
+        if ((stackCount < 2) && (vertLoc[w][0] < center)){
+            cout << " <-- Isostatic graph\n";
+        }
+        if ((stackCount < 2) && (vertLoc[w][0] > center)){
+            cout << " <-- Reflected Isostatic graph\n";
+        }
         if (reflection == 1){
-            cout << " <-- Reflection across x = " << center << "\n";
+            cout << " <-- Assur Reflection across x = " << center << "\n";
             reflection = 0;
-        }else
-            cout << " <-- Left side of graph\n";
+        }
+        if (left == 1){
+            cout << " <-- Assur Decomp of left side\n";
+            left = 0;
+        }
+        stackCount = 0;
+
+
 
         stackMember[w] = false;
         st->pop();
@@ -153,7 +179,7 @@ bool isSymmetric(int total, int coords[][2], int edges[][10]) {
                 //check edges
                 //first edge i has comp to first edge j has
                 //if the y coord of their edge is not equal
-                if (coords[edges[i][0]][1] != coords[edges[j][0]][1]) {
+ /*               if (coords[edges[i][0]][1] != coords[edges[j][0]][1]) {
                     return false;
                 }
                 //if the larger x coord - center != center - smallest x coord
@@ -166,7 +192,7 @@ bool isSymmetric(int total, int coords[][2], int edges[][10]) {
                     if((coords[edges[j][0]][0]- center) != (center - coords[edges[i][0]][0])) {
                         return false;
                     }
-                }
+                }*/
             }
             //if there are no other vertex on the level and center is 0, center is the vert loc
             //if there are no other vertex on the level and center isnt 0, check that the vert is on center and if not return false
@@ -182,11 +208,25 @@ bool isSymmetric(int total, int coords[][2], int edges[][10]) {
     }
     return true;
 }
-// Driver program to test above function
+
+void printReflection() {
+    string reflection = "";
+    string left = "";
+    for (int i = 0; i < totalVert; i++){
+        if (vertLoc[i][0] < center){
+            left += to_string(i);
+        }
+        else{
+            reflection += to_string(i);
+        }
+    }
+    cout << left << " <-- Left side of graph\n";
+    cout << reflection << " <-- Reflection\n\n";
+}
+
 int main()
 {
-    int numPinned;
-    int numVerticies;
+
 
     std::cout << "How many pinned vertices are there?" << std::endl;
     cin >> numPinned;
@@ -197,7 +237,7 @@ int main()
 //    vector<int> edges[numPinned+numVerticies + 1];
     int checker = 0;
     int counter, edgeCounter = 0;
-    int totalVert = numPinned + numVerticies;
+    totalVert = numPinned + numVerticies;
     //to keep track of all verts the pins point to
     //int vertLoc[totalVert][2];
     //int vertEdges[totalVert][10];
@@ -233,34 +273,27 @@ int main()
                   }
               }
           }*/
-    int vertLoc[6][2] = {{1,1}, {2,2}, {4,2}, {5,1}, {1,3}, {5,3}};
     int vertEdges[6][10] = {{1}, {4}, {5}, {2}, {0}, {3}};
-    cout << "Vertex 1 x coord: " << vertLoc[1][0] << " Y coord: " << vertLoc[1][1] << "\n";
 
-    bool test = false;
-    test = isSymmetric(totalVert, vertLoc, vertEdges);
-    cout << "\n\n Is symmetric? " << test << "\n\n";
+    bool sym = false;
+    sym = isSymmetric(totalVert, vertLoc, vertEdges);
+    cout << "\n\n Is symmetric? " << sym << "\n\n";
 
+    if (sym){
+        printReflection();
+    }
+
+    //Ex 1: Symmetric graph with two SCCs
+/*    g1.addEdge(0, 1);g1.addEdge(1, 4);g1.addEdge(4, 0);
+    g1.addEdge(3, 2);g1.addEdge(2, 5);g1.addEdge(5, 3);
+*/
+    //Ex 2: Symmetric graph with extra verts that get separated
     g1.addEdge(0, 1);g1.addEdge(1, 4);g1.addEdge(4, 0);
     g1.addEdge(3, 2);g1.addEdge(2, 5);g1.addEdge(5, 3);
-
-/* EX 1 separating two strongly cluster components, keeping the pinned verts with the correct group
-    g1.addEdge(3, 0);g1.addEdge(0, 3);
-    g1.addEdge(2, 1);g1.addEdge(1, 2);
-    g1.addEdge(2, 4);
-    g1.addEdge(3, 2);
-    g1.addEdge(4, 3);g1.addEdge(4, 5);
-
-    g1.addEdge(5, 7);g1.addEdge(6, 5);
-    g1.addEdge(7, 6);*/
+    g1.addEdge(6, 4);g1.addEdge(7, 5);
 
 
-/* EX 2 when pinned vertexes get separated
-    g1.addEdge(3, 0);g1.addEdge(3, 1);g1.addEdge(0, 3);g1.addEdge(1, 3);
-    g1.addEdge(4, 3);g1.addEdge(4, 2);g1.addEdge(2, 4);
-*/
-
-    g1.Tarjan(test);
+    g1.Tarjan(sym);
 
     return 0;
 }
