@@ -134,8 +134,6 @@ int main()
     int checker = 0;
     int counter = 0;
     int totalVert = numPinned + numVerticies;
-    //to keep track of all verts the pins point to
-    int pinnedLinks [numPinned][numVerticies];
     cout << "\n";
     Graph g1(totalVert, numPinned);
 
@@ -160,7 +158,7 @@ int main()
            }
        }*/
 
-   //EX 1 separating two strongly cluster components, keeping the pinned verts with the correct group
+/*   //EX 1 separating two strongly cluster components, keeping the pinned verts with the correct group
    //0 and 1 are pinned
     g1.addEdge(3, 0);g1.addEdge(0, 3);
     g1.addEdge(2, 1);g1.addEdge(1, 2);
@@ -168,14 +166,29 @@ int main()
     g1.addEdge(3, 2);
     g1.addEdge(4, 3);g1.addEdge(4, 5);
 
-    g1.addEdge(5, 7);g1.addEdge(6, 5);
+    g1.addEdge(5, 7);g1.addEdge(6, 5);g1.addEdge(6, 3);g1.addEdge(6, 4);
     g1.addEdge(7, 6);
+*/
 
-
- //EX 2 when pinned vertexes get separated
- /*   g1.addEdge(3, 0);g1.addEdge(3, 1);g1.addEdge(0, 3);g1.addEdge(1, 3);
+/* //EX 2 when pinned vertexes get separated
+    g1.addEdge(3, 0);g1.addEdge(3, 1);g1.addEdge(0, 3);g1.addEdge(1, 3);
     g1.addEdge(4, 3);g1.addEdge(4, 2);g1.addEdge(2, 4);
 */
+
+    //EX 3 big boi
+    g1.addEdge(3, 0);g1.addEdge(0, 3);
+    g1.addEdge(2, 1);g1.addEdge(1, 2);
+    g1.addEdge(2, 4);g1.addEdge(2, 5);
+    g1.addEdge(3, 2);g1.addEdge(4, 1);g1.addEdge(1, 4);
+    g1.addEdge(4, 3);g1.addEdge(5, 4);
+
+    //Non assur SCC
+    g1.addEdge(6, 3);g1.addEdge(6, 9);g1.addEdge(9, 2);
+    g1.addEdge(7, 6);g1.addEdge(9, 7);
+
+    //Loners
+    g1.addEdge(8, 7);g1.addEdge(10, 9);
+
 
     g1.Tarjan();
 
