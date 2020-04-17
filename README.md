@@ -11,14 +11,16 @@ assur.cpp
 
 Ex 1. Vertex 0 and 1 are pinned verticies. They are connected to a SCC made up of 2-4. Vert 5-7 are SCC but not SCC to the other verts.
 
-Todo: example of separating pinned verts, ex of a larger graph with more separations
+Ex 2. Vertex 0, 1, 2 pinned. Separates the assur graph from another graph with a pinned vertex
+
+Ex 3. Pinned vert: 0, 1. Large example showing separation of SCCs and multiple extraneous points
 
 
 sym-assur.cpp
 note: for this file you have to uncomment out the vertLoc array at the top as well as the addedge calls in main
 
-Ex 1. Ideal scenario. Symmytrical graph, Two SCCs, one the reflection of the other
+Ex 1. X Symmytrical graph, Three SCCs. Reflected and separated
 
-Ex 2. Symmytrical graph, Two SCCs with an additional not strongly connnected vert
+Ex 2. Y Symmytrical graph, Two SCCs. Reflected and separated
 
 todo: a non symmetric example, example with vertexes with multiple edges
